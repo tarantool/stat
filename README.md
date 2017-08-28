@@ -41,7 +41,7 @@ Example
   tarantool> require('json').encode(require('stat').stat())
 ```
 
-``` json
+```
 {
   // Number of various operations since Tarantool started
   "stat.op.delete":0,
