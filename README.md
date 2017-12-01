@@ -1,4 +1,4 @@
-# stat - status mudule for Tarantool 1.7+[Tarantool][]
+# stat - the status module for Tarantool 1.7+ [Tarantool][]
 
 ## Getting Started
 
