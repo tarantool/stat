@@ -4,18 +4,7 @@
 
 ### Prerequisites
 
- * Tarantool 1.6.5+ with header files (tarantool && tarantool-dev)
-
-### Installation
-
-Clone repository and then build it using CMake:
-
-``` bash
-git clone https://github.com/dedok/tarantool-stat.git
-cd tarantool-stat && cmake . -DCMAKE_BUILD_TYPE=RelWithDebugInfo
-make
-make install
-```
+ * Tarantool 1.7+ with header files (tarantool && tarantool-dev)
 
 ## API Documentation
 
