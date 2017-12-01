@@ -1,4 +1,4 @@
-# stat - status mudule for Tarantool 1.6.5+[Tarantool][]
+# stat - status mudule for Tarantool 1.7+[Tarantool][]
 
 ## Getting Started
 
@@ -15,13 +15,6 @@ git clone https://github.com/dedok/tarantool-stat.git
 cd tarantool-stat && cmake . -DCMAKE_BUILD_TYPE=RelWithDebugInfo
 make
 make install
-```
-
-### Usage
-
-``` lua
-local stat = require('stat')
-local st = stat.get()
 ```
 
 ## API Documentation
@@ -108,7 +101,6 @@ Example
 
 # See Also
 
- * [Tests][]
  * [Tarantool][]
 
 [Tarantool]: http://github.com/tarantool/tarantool
