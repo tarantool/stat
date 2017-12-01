@@ -1,7 +1,13 @@
 #!/bin/bash
 PATH="/bin:/sbin:/usr/bin:/usr/sbin"
 
+#
+# Copyright (C) 2017 Tarantool AUTHORS: please see the [AUTHORS](AUTHORS.md) file.
+#
+
+# TODO Move to 'help' and to the README.md [[[
 # скрипт для сбора статистики тарантула в collectd
+# ]]]
 
 INTERVAL="1"	# sec
 # set hostname
