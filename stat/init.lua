@@ -33,6 +33,8 @@
 
 local clock = require('clock')
 local fiber = require('fiber')
+local util = require('stat/util')
+
 
 local function stat(args)
     args = args or {}
@@ -49,6 +51,8 @@ local function stat(args)
 
     do
         stats['cfg.listen'] = box.cfg.listen
+        stats['cfg.current_time'] = util.time()
+        stats['cfg.hostname'] = util.gethostname()
     end
 
     do
