@@ -6,9 +6,15 @@
 local clock = require('clock')
 local fiber = require('fiber')
 
-local function stat()
+local function stat(args)
+    args = args or {}
 
-    local stats = { }
+    local include_vinyl_count = args.include_vinyl_count
+    if include_vinyl_count == nil then
+        include_vinyl_count = true
+    end
+
+    local stats = {}
 
     local st_time = clock.realtime()
     local st_cpu = clock.proc()
@@ -100,7 +106,9 @@ local function stat()
                     stats[ sp_prefix .. '.index_bsize' ] = total
                     stats[ sp_prefix .. '.total_bsize' ] = sp_bsize + total
                 else
-                    stats[ sp_prefix .. '.count' ] = sp:count()
+                    if include_vinyl_count then
+                        stats[ sp_prefix .. '.count' ] = sp:count()
+                    end
                     stats[ sp_prefix .. '.index_bsize' ] = total
                 end
             end
