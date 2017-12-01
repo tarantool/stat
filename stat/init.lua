@@ -86,20 +86,22 @@ local function stat()
                 local sp = box.space[space_name]
                 local sp_prefix = 'space.' .. sp.name
 
-                if sp.engine == 'memtx' then
-                    for _, i in pairs(sp.index) do
-                        if type(_) == 'number' then
-                            stats[sp_prefix .. '.index.' .. i.name .. '.bsize'] = i:bsize()
-                            total = total + i:bsize()
-                        end
+                for _, i in pairs(sp.index) do
+                    if type(_) == 'number' then
+                        stats[sp_prefix .. '.index.' .. i.name .. '.bsize'] = i:bsize()
+                        total = total + i:bsize()
                     end
+                end
 
+                if sp.engine == 'memtx' then
                     local sp_bsize = sp:bsize()
                     stats[ sp_prefix .. '.len' ] = sp:len()
                     stats[ sp_prefix .. '.bsize' ] = sp_bsize
+                    stats[ sp_prefix .. '.index_bsize' ] = total
                     stats[ sp_prefix .. '.total_bsize' ] = sp_bsize + total
                 else
                     stats[ sp_prefix .. '.count' ] = sp:count()
+                    stats[ sp_prefix .. '.index_bsize' ] = total
                 end
             end
         end
