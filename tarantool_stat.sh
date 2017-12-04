@@ -18,7 +18,7 @@ if [[ -z $COLLECTD_HOSTNAME ]]; then
 else
 	HOSTNAME=$COLLECTD_HOSTNAME
 fi
-INSTANCE_NAMES=$( systemctl | grep '\starantool@.*\.service' | awk '{print $1}' | sed 's|tarantool@||; s|\.service||' )
+INSTANCE_NAMES=$( systemctl | grep '\tarantool@.*\.service' | awk '{print $1}' | sed 's|tarantool@||; s|\.service||' )
 
 while true; do
 	for INSTANCE_NAME in $INSTANCE_NAMES; do
