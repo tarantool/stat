@@ -42,4 +42,6 @@ luac.out
 *.hex
 
 build.luarocks/
+build/
+cmakebuild/
 packpack/
