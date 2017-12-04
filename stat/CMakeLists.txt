@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 #
 # Copyright (C) 2017 Tarantool AUTHORS: please see the [AUTHORS](AUTHORS.md) file.

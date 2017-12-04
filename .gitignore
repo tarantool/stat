@@ -42,3 +42,4 @@ luac.out
 *.hex
 
 build.luarocks/
+packpack/
