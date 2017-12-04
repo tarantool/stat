@@ -1,0 +1,4 @@
+tarantool-stat (0.1.0) stable; urgency=medium
+  * Initial release.
+
+ -- Alexander Opryshko <alexopryshko@yandex.ru>  Mon, 04 Dec 2017 18:05:06 +0300

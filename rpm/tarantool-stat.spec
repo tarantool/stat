@@ -36,5 +36,5 @@ make %{?_smp_mflags}
 %license LICENSE
 
 %changelog
-* Mon Dec 04 2017 Alexander Opryshko <alexopryshko@yandex.ru> 0.1
+* Mon Dec 04 2017 Alexander Opryshko <alexopryshko@yandex.ru> 0.1.0
 - Initial version of the RPM spec
