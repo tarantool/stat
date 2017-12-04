@@ -53,6 +53,25 @@ local function stat(args)
         stats['cfg.listen'] = box.cfg.listen
         stats['cfg.current_time'] = util.time()
         stats['cfg.hostname'] = util.gethostname()
+        stats['cfg.read_only'] = box.cfg.read_only
+    end
+
+    do
+        local i = box.info()
+
+        if box.cfg.read_only then
+            for k, v in ipairs(i.vclock) do
+                local lsn = i.replication[k].lsn
+                stats['replication.replica.' .. k .. '.lsn'] = lsn - v
+            end
+        else
+            for k, v in ipairs(i.replication) do
+                if v.downstream ~= nil then
+                    local lsn = v.downstream.vclock[i.id]
+                    stats['replication.master.' .. k .. '.lsn'] = i.lsn - lsn
+                end
+            end
+        end
     end
 
     do
