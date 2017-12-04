@@ -56,7 +56,7 @@ for INSTANCE_NAME in $INSTANCE_NAMES; do
 	fi
 
 	# replication_status
-	VAL=$( get_metric_val $INSTANCE_NAME "box.info.replication.status" )
+	VAL=$( get_metric_val $INSTANCE_NAME "(box.info.replication[box.info.id].upstream or {}).status or 'off'" )
 	EXIT_CODE=$(( $EXIT_CODE | $? ))
 	if [[ "$VAL" != "off" && "$VAL" != "follow" ]]; then
 		echo "instance $INSTANCE_NAME - replication status $VAL"
@@ -64,7 +64,7 @@ for INSTANCE_NAME in $INSTANCE_NAMES; do
 	fi
 
 	if [[ "$VAL" == "follow" ]]; then
-		VAL=$( get_metric_val $INSTANCE_NAME "box.info.replication.status" )
+		VAL=$( get_metric_val $INSTANCE_NAME "box.info.replication[box.info.id].upstream.lag" )
 		EXIT_CODE=$(( $EXIT_CODE | $? ))
 		if [[ $VAL -gt 10 ]]; then
 			echo "instance $INSTANCE_NAME - replication lag more 10s ($VAL)"
