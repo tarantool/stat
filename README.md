@@ -133,6 +133,43 @@ Example
 }
 ```
 
+### `$ tarantool.sh`
+grep all tarantool@* instances and check parameters:
+ * box.slab.info().arena_used_ratio
+ * box.info().status
+ * replication status
+
+*Returns*:
+
+ - empty result on success
+ - `error(reason)` on error
+
+### `$ tarantool_stat.sh`
+grep all tarantool@* instances and perform require('stat').stat()
+
+*Returns*:
+
+ - list of metrics on success
+ - `error(reason)` on error
+ 
+ Example
+
+``` 
+$ tarantool_stat.sh
+```
+
+```
+
+PUTVAL "host/tarantool/tarantool-slab_arena_size" interval=1 N:7483488
+PUTVAL "host/tarantool/tarantool-space_chat_bsize" interval=1 N:38774
+PUTVAL "host/tarantool/tarantool-statperf_fibers_t" interval=1 N:0.039196491241455
+PUTVAL "host/tarantool/tarantool-stat_net_received" interval=1 N:125297500
+PUTVAL "host/tarantool/tarantool-space_question_bsize" interval=1 N:7670
+PUTVAL "host/tarantool/tarantool-stat_op_update" interval=1 N:23988
+...
+```
+
+
 # See Also
 
  * [Tarantool][]
