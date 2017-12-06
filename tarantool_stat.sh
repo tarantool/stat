@@ -27,7 +27,7 @@ while true; do
 		for METRIC in $METRICS; do
 			VAL=$( echo "$BOX_STAT" | grep -w $METRIC | awk '{print $NF}' )
 			METRIC_NAME=$( echo $METRIC | tr '[:upper:]' '[:lower:]' | sed 's|:||g; s|\.|_|g' )
-			echo -e "PUTVAL \"$HOSTNAME/tarantool/tarantool-$METRIC_NAME\" interval=$INTERVAL N:$VAL"
+			echo -e "PUTVAL \"$HOSTNAME/tarantool-$INSTANCE_NAME/$METRIC_NAME\" interval=$INTERVAL N:$VAL"
 		done
 	done
 	sleep $INTERVAL
