@@ -40,7 +40,6 @@ Example
   "cfg.hostname":"some_hostname",
   "cfg.read_only":false,
   
-  
   //
   // Lag if instance is readonly 
   "replication.replica.<instance_id>.lsn":0,
@@ -64,17 +63,18 @@ Example
   // and the local time at another master recorded when the event was written to the write ahead log on that master
   "info.replication.<instance_id>.lag":0.00001,
   
-  
   //
   // Slab information
   // https://tarantool.org/doc/1.7/book/box/box_slab.html?highlight=slab%20info#lua-function.box.slab.info
-  "slab.items_used":4728,
-  "slab.arena_used":1102456,
-  "slab.quota_used":8388608,
-  "slab.arena_size":2325176,
-  "slab.quota_size":268435456,
-  "slab.items_size":228128,
-  
+  "slab.arena_size":5415928,
+  "slab.arena_used":3062008,
+  "slab.arena_used_ratio":56.5,
+  "slab.items_size":1221832,
+  "slab.items_used":735480,
+  "slab.items_used_ratio":60.19,
+  "slab.quota_size":104857600,
+  "slab.quota_used":33554432,
+  "slab.quota_used_ratio":32,
   
   //
   // is the current memory size used by Lua
@@ -82,20 +82,28 @@ Example
   // is the heap size of the Lua garbage collector;
   "runtime.lua":1247700,
   
-  
   //
   // Number of various operations since Tarantool started
-  "stat.op.delete":0,
-  "stat.op.error":0,
-  "stat.op.insert":0,
-  "stat.op.eval":0,
-  "stat.op.auth":0,
-  "stat.op.update":0,
-  "stat.op.replace":0,
-  "stat.op.call":0,
-  "stat.op.upsert":0,
-  "stat.op.select":1,
-  
+  "stat.op.delete.total":0,
+  "stat.op.delete.rps":0,
+  "stat.op.error.total":0,
+  "stat.op.error.rps":0,
+  "stat.op.insert.total":0,
+  "stat.op.insert.rps":0,
+  "stat.op.eval.total":0,
+  "stat.op.eval.rps":0,
+  "stat.op.auth.total":0,
+  "stat.op.auth.rps":0,
+  "stat.op.update.total":0,
+  "stat.op.update.rps":0,
+  "stat.op.replace.total":0,
+  "stat.op.replace.rps":0,
+  "stat.op.call.total":0,
+  "stat.op.call.rps":0,
+  "stat.op.upsert.total":0,
+  "stat.op.upsert.rps":0,
+  "stat.op.select.total":1,
+  "stat.op.select.rps":0,
   
   //
   // Information about spaces
@@ -110,7 +118,6 @@ Example
   // Total size of space
   "space.<space_name>.total_bsize":10,
   
-  
   //
   // Information about Fibers
   // Number of fibers
@@ -121,7 +128,6 @@ Example
   "fiber.memused":0,
   "fiber.csw":102,
   
-  
   //
   // Perf information
   "statperf.stats_t":5.6982040405273e-05,
@@ -131,12 +137,13 @@ Example
   "statperf.spaces":0.000103,
   "statperf.stats":5.4999999999999e-05,
   
-  
   //
   // Number of packets passed via network interface
-  "stat.net.received":0,
+  "stat.net.received.total":0,
+  "stat.net.received.rps":0,
   // Same, but sent via network interface
-  "stat.net.sent":0 ,
+  "stat.net.sent.total":0,
+  "stat.net.sent.rps":0,
 
 }
 ```
