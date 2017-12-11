@@ -120,7 +120,7 @@ end
 local function main()
     local test = tap.test()
     test:plan(8)
-    tnt.cfg { listen = 3301 }
+    tnt.cfg {}
 
     test:test('test_cfg', test_cfg)
     test:test('test_info', test_info)
