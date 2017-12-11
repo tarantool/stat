@@ -1,5 +1,13 @@
 # stat - the status module for Tarantool 1.7+ [Tarantool][]
 
+## Installation
+1. Add [tarantool repository](http://tarantool.org/download.html) for
+   yum or apt
+2. Install
+```bash
+$ sudo [yum|apt-get] install tarantool tarantool-stat
+```
+
 ## Getting Started
 
 ### Prerequisites
