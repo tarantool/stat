@@ -11,6 +11,8 @@ env:
     global:
       - PRODUCT=tarantool-stat
     matrix:
+      - TARGET=test VERSION=1_7
+      - TARGET=test VERSION=1_8
       - OS=el DIST=6
       - OS=el DIST=7
       - OS=fedora DIST=24
@@ -36,8 +38,13 @@ env:
 
 script:
   - git describe --long
-  - git clone https://github.com/igorcoding/packpack.git packpack
-  - packpack/packpack
+  - |
+    if [ "${TARGET}" = "test" ]; then
+        ./tests/run_all.sh;
+    else
+        git clone https://github.com/packpack/packpack.git packpack;
+        packpack/packpack;
+    fi;
 
 before_deploy:
   - ls -l build/
