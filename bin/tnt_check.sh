@@ -5,19 +5,6 @@ PATH="/bin:/sbin:/usr/bin:/usr/sbin"
 # Copyright (C) 2017 Tarantool AUTHORS: please see the [AUTHORS](AUTHORS.md) file.
 #
 
-# TODO Move to 'help' and to the README.md [[[
-#
-# чекалка для tarantool 1.6+ для centos7
-#
-# логика примерно такая:
-# 1. достаём список инстансов из systemctl
-# 2. по каждому инстансу делаем проверки:
-#	a) процент занятой арены arena_used_ratio < 85%
-#	b) статус инстанса - running
-#	c) статус реплики off (мастер) или follow (реплика)
-#	d) если статус реплики follow, то доп роверка на server_ro=true и replication_lag < 1s
-# ]]]
-
 INSTANCE_NAMES=$( systemctl --no-pager --no-legend list-units 'tarantool@*' | cut -f 1 -d ' '| sed 's|tarantool@||; s|\.service||' )
 EXIT_CODE=0
 

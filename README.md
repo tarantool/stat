@@ -141,7 +141,7 @@ Example
 }
 ```
 
-### `$ tarantool.sh`
+### `$ tnt_check.sh`
 grep all tarantool@* instances and check parameters:
  * box.slab.info().arena_used_ratio
  * box.info().status
@@ -152,8 +152,8 @@ grep all tarantool@* instances and check parameters:
  - empty result on success
  - `error(reason)` on error
 
-### `$ tarantool_stat.sh`
-grep all tarantool@* instances and perform require('stat').stat()
+### `$ tnt_collectd.sh`
+grep all tarantool@* instances, perform require('stat').stat() and generate putval statements
 
 *Returns*:
 
@@ -163,7 +163,7 @@ grep all tarantool@* instances and perform require('stat').stat()
  Example
 
 ``` 
-$ tarantool_stat.sh
+$ tnt_collectd.sh
 ```
 
 ```
