@@ -29,8 +29,8 @@ make %{?_smp_mflags}
 
 %files
 %{_datarootdir}/tarantool/stat
-%{_bindir}/tarantool.sh
-%{_bindir}/tarantool_stat.sh
+%{_bindir}/tnt_check.sh
+%{_bindir}/tnt_collectd.sh
 %doc README.md
 %{!?_licensedir:%global license %doc}
 %license LICENSE

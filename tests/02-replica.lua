@@ -153,7 +153,7 @@ end
 local function main()
     local test = tap.test()
     test:plan(4)
-    tnt.cfg { listen = 3301 }
+    tnt.cfg {}
 
     test:test('test_replication_replica_info', test_replication_replica_info)
     test:test('test_replication_master_info', test_replication_master_info)
