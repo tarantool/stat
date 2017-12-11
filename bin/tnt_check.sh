@@ -21,6 +21,19 @@ get_metric_val(){
 	echo $VAL
 }
 
+get_metric_vals(){
+	INSTANCE_NAME=$1
+	METRIC=$2
+
+	VAL=$( echo "${METRIC}" | tarantoolctl enter $INSTANCE_NAME 2>/dev/null | grep ' - ' | cut -c5- )
+	if [[ -z $VAL ]]; then
+		echo "can't get $METRIC from $INSTANCE_NAME" >&2
+		return 1
+	fi
+
+	echo $VAL
+}
+
 EXIT_CODE=0
 
 for INSTANCE_NAME in $INSTANCE_NAMES; do
@@ -43,14 +56,14 @@ for INSTANCE_NAME in $INSTANCE_NAMES; do
 	fi
 
 	# replication_status
-	VAL=$( get_metric_val $INSTANCE_NAME "require('stat').check_replica { exclude = {'follow'} }" )
+	VAL=$( get_metric_vals $INSTANCE_NAME "require('stat').check_replica { exclude = {'follow'} }" )
 	EXIT_CODE=$(( $EXIT_CODE | $? ))
 	for UUID in $VAL; do
 	    echo "instance $INSTANCE_NAME replica $UUID - replication status is not equal \"follow\""
 	    EXIT_CODE="1"
 	done
 
-	VAL=$( get_metric_val $INSTANCE_NAME "require('stat').check_replica { include = {'follow'}, lag = 10 }" )
+	VAL=$( get_metric_vals $INSTANCE_NAME "require('stat').check_replica { include = {'follow'}, lag = 10 }" )
     EXIT_CODE=$(( $EXIT_CODE | $? ))
     for UUID in $VAL; do
 	    echo "instance $INSTANCE_NAME replica $UUID - replication lag more 10s ($VAL)"
