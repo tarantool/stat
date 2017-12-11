@@ -1,4 +1,3 @@
-
 ---
 --- Copyright (C) 2017 Tarantool AUTHORS: please see the [AUTHORS](AUTHORS.md) file.
 --
@@ -97,6 +96,8 @@ local function stat(args)
         for k, v in pairs(i) do
             if not k:match('_ratio$') then
                 stats['slab.' .. k] = v
+            else
+                stats['slab.' .. k] = tonumber(v:match('^([0-9%.]+)%%?$'))
             end
         end
     end
@@ -113,14 +114,16 @@ local function stat(args)
     do
         local i = box.stat()
         for k, v in pairs(i) do
-            stats["stat.op." .. k:lower()] = v.total
+            stats['stat.op.' .. k:lower() .. '.total'] = v.total
+            stats['stat.op.' .. k:lower() .. '.rps'] = v.rps
         end
     end
 
     do
         local i = box.stat.net()
         for k, v in pairs(i) do
-            stats["stat.net." .. k:lower()] = v.total
+            stats['stat.net.' .. k:lower() .. '.total'] = v.total
+            stats['stat.net.' .. k:lower() .. '.rps'] = v.rps
         end
     end
 
@@ -202,6 +205,64 @@ local function stat(args)
     return stats
 end
 
+local function _check_replica_status(r, exclude, include)
+    local res = {}
+
+    for k, v in ipairs(r) do
+        if v.upstream ~= nil then
+            if exclude[v.upstream.status] == nil and next(exclude) ~= nil or
+                include[v.upstream.status] ~= nil then
+                table.insert(res, v)
+            end
+        end
+    end
+
+    return res
+end
+
+local function _check_replica_lag(r, max_allowed_lag)
+    local res = {}
+
+    for k, v in ipairs(r) do
+        if v.upstream ~= nil then
+            if v.upstream.lag > max_allowed_lag then
+                table.insert(res, v)
+            end
+        end
+    end
+
+    return res
+end
+
+local function check_replica(args)
+    args = args or {}
+    local exclude = {}
+    local include = {}
+
+    if args.exclude then
+        for _, status in ipairs(args.exclude) do
+            exclude[status] = true
+        end
+    elseif args.include then
+        for _, status in ipairs(args.include) do
+            include[status] = true
+        end
+    end
+
+    local r = _check_replica_status(box.info().replication, exclude, include)
+    if args.lag then
+        r = _check_replica_lag(r, args.lag)
+    end
+
+    local res = {}
+    for _, v in ipairs(r) do
+        table.insert(res, v.uuid)
+    end
+
+    return res
+end
+
 return {
-    stat = stat
+    stat = stat,
+    check_replica = check_replica
 }

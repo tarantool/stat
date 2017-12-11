@@ -56,21 +56,19 @@ for INSTANCE_NAME in $INSTANCE_NAMES; do
 	fi
 
 	# replication_status
-	VAL=$( get_metric_val $INSTANCE_NAME "(box.info.replication[box.info.id].upstream or {}).status or 'off'" )
+	VAL=$( get_metric_val $INSTANCE_NAME "require('stat').check_replica { exclude = {'follow'} }" )
 	EXIT_CODE=$(( $EXIT_CODE | $? ))
-	if [[ "$VAL" != "off" && "$VAL" != "follow" ]]; then
-		echo "instance $INSTANCE_NAME - replication status $VAL"
-		EXIT_CODE="1"
-	fi
+	for UUID in $VAL; do
+	    echo "instance $INSTANCE_NAME replica $UUID - replication status is not equal \"follow\""
+	    EXIT_CODE="1"
+	done
 
-	if [[ "$VAL" == "follow" ]]; then
-		VAL=$( get_metric_val $INSTANCE_NAME "box.info.replication[box.info.id].upstream.lag" )
-		EXIT_CODE=$(( $EXIT_CODE | $? ))
-		if [[ $VAL -gt 10 ]]; then
-			echo "instance $INSTANCE_NAME - replication lag more 10s ($VAL)"
-			EXIT_CODE="1"
-		fi
-	fi
+	VAL=$( get_metric_val $INSTANCE_NAME "require('stat').check_replica { include = {'follow'}, lag = 10 }" )
+    EXIT_CODE=$(( $EXIT_CODE | $? ))
+    for UUID in $VAL; do
+	    echo "instance $INSTANCE_NAME replica $UUID - replication lag more 10s ($VAL)"
+	    EXIT_CODE="1"
+	done
 
 done
 exit $EXIT_CODE
