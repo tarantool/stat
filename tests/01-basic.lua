@@ -116,10 +116,24 @@ local function test_fiber(test)
     test:isnumber(s['fiber.memused'], 'check fiber.memused')
 end
 
+local function test_memory(test)
+    test:plan(6)
+
+    local s = stat.stat()
+
+    test:isnumber(s['info.memory.cache'], 'check info.memory.cache')
+    test:isnumber(s['info.memory.data'], 'check info.memory.data')
+    test:isnumber(s['info.memory.tx'], 'check info.memory.tx')
+    test:isnumber(s['info.memory.lua'], 'check info.memory.lua')
+    test:isnumber(s['info.memory.net'], 'check info.memory.net')
+    test:isnumber(s['info.memory.index'], 'check info.memory.index')
+end
+
+
 
 local function main()
     local test = tap.test()
-    test:plan(8)
+    test:plan(9)
     tnt.cfg { listen = 33301 }
 
     test:test('test_cfg', test_cfg)
@@ -130,6 +144,7 @@ local function main()
     test:test('test_stat_net', test_stat_net)
     test:test('test_space', test_space)
     test:test('test_fiber', test_fiber)
+    test:test('test_memory', test_memory)
 
     tnt.finish()
     os.exit(test:check() == true and 0 or -1)

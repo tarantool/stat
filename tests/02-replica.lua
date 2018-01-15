@@ -22,15 +22,18 @@ end
 
 local function fixture_replication_replica()
     local backup
+    local memory
     return {
         f_start = function()
             backup = box.info
-            box.info = function()
+	    memory = box.info.memory
+            box.info = setmetatable(box.info, {__call = function()
                 return {
                     replication =   { [1] = { lsn = 5 }, [2] = { lsn = 0 } },
                     vclock =        { [1] = 4 }
                 }
-            end
+            end})
+	    box.info.memory = memory
         end,
         f_end = function()
             box.info = backup
@@ -43,7 +46,7 @@ local function fixture_replication_master()
     return {
         f_start = function()
             backup = box.info
-            box.info = function()
+            box.info = setmetatable(box.info, {__call = function()
                 return {
                     id = 1, lsn = 32, vclock = { [1] = 32 },
                     replication =   {
@@ -53,7 +56,7 @@ local function fixture_replication_master()
                         }
                     }
                 }
-            end
+            end})
         end,
         f_end = function()
             box.info = backup
@@ -66,7 +69,7 @@ local function fixture_replication()
     return {
         f_start = function()
             backup = box.info
-            box.info = function()
+            box.info = setmetatable(box.info, {__call = function()
                 return {
                     id = 1, lsn = 32, vclock = { [1] = 32 },
                     replication =   {
@@ -76,7 +79,7 @@ local function fixture_replication()
                         [4] = { uuid = '4', upstream = { status = 'stopped', lag = 3 } }
                     }
                 }
-            end
+            end})
         end,
         f_end = function()
             box.info = backup
