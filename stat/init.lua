@@ -122,6 +122,15 @@ local function stat(args)
     end
 
     do
+        if box.info.memory ~= nil then
+            local i = box.info.memory()
+            for k, v in pairs(i) do
+                stats['info.memory.' .. k] = v
+            end
+        end
+    end
+
+    do
         local i = box.stat.net()
         for k, v in pairs(i) do
             stats['stat.net.' .. k:lower() .. '.total'] = v.total
