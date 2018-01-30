@@ -1,5 +1,7 @@
 # stat - the status module for Tarantool 1.7+ [Tarantool][]
 
+Forked from https://github.com/dedok/tarantool-stat
+
 ## Installation
 1. Add [tarantool repository](http://tarantool.org/download.html) for
    yum or apt
