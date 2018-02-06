@@ -6,6 +6,28 @@ local tap = require 'tap'
 local tnt = require 'tests.tnt'
 local stat = require 'stat'
 
+local function fixture_info_memory()
+    local backup
+    return {
+        f_start = function()
+            backup = box.info.memory
+            box.info.memory = function()
+                return {
+                    cache = 0,
+                    data = 14064,
+                    tx = 0,
+                    lua = 1771334,
+                    net = 98304,
+                    index = 1196032
+                }
+            end
+        end,
+        f_end = function()
+            box.info = backup
+        end
+    }
+end
+
 
 local function test_cfg(test)
     test:plan(4)
@@ -93,7 +115,7 @@ local function test_space(test)
     test:plan(5)
 
     local sp = box.schema.space.create('test', {})
-    sp:create_index('primary', {unique = true, parts = {1, 'unsigned',}})
+    sp:create_index('primary', { unique = true, parts = { 1, 'unsigned', } })
 
     local s = stat.stat()
 
@@ -119,6 +141,9 @@ end
 local function test_memory(test)
     test:plan(6)
 
+    local info_memory = fixture_info_memory()
+    info_memory.f_start()
+
     local s = stat.stat()
 
     test:isnumber(s['info.memory.cache'], 'check info.memory.cache')
@@ -127,6 +152,8 @@ local function test_memory(test)
     test:isnumber(s['info.memory.lua'], 'check info.memory.lua')
     test:isnumber(s['info.memory.net'], 'check info.memory.net')
     test:isnumber(s['info.memory.index'], 'check info.memory.index')
+
+    info_memory.f_end()
 end
 
 

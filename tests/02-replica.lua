@@ -22,18 +22,15 @@ end
 
 local function fixture_replication_replica()
     local backup
-    local memory
     return {
         f_start = function()
             backup = box.info
-	    memory = box.info.memory
-            box.info = setmetatable(box.info, {__call = function()
+            box.info = setmetatable(box.info, { __call = function()
                 return {
-                    replication =   { [1] = { lsn = 5 }, [2] = { lsn = 0 } },
-                    vclock =        { [1] = 4 }
+                    replication = { [1] = { lsn = 5 }, [2] = { lsn = 0 } },
+                    vclock = { [1] = 4 }
                 }
-            end})
-	    box.info.memory = memory
+            end })
         end,
         f_end = function()
             box.info = backup
@@ -46,17 +43,17 @@ local function fixture_replication_master()
     return {
         f_start = function()
             backup = box.info
-            box.info = setmetatable(box.info, {__call = function()
+            box.info = setmetatable(box.info, { __call = function()
                 return {
                     id = 1, lsn = 32, vclock = { [1] = 32 },
-                    replication =   {
+                    replication = {
                         [1] = { lsn = 32 },
                         [2] = {
                             downstream = { vclock = { [1] = 31 } }
                         }
                     }
                 }
-            end})
+            end })
         end,
         f_end = function()
             box.info = backup
@@ -69,17 +66,17 @@ local function fixture_replication()
     return {
         f_start = function()
             backup = box.info
-            box.info = setmetatable(box.info, {__call = function()
+            box.info = setmetatable(box.info, { __call = function()
                 return {
                     id = 1, lsn = 32, vclock = { [1] = 32 },
-                    replication =   {
+                    replication = {
                         [1] = { uuid = '1', lsn = 32 },
                         [2] = { uuid = '2', upstream = { status = 'follow', lag = 15 } },
                         [3] = { uuid = '3', upstream = { status = 'follow', lag = 0 } },
                         [4] = { uuid = '4', upstream = { status = 'stopped', lag = 3 } }
                     }
                 }
-            end})
+            end })
         end,
         f_end = function()
             box.info = backup
@@ -124,11 +121,11 @@ local function test_replication_status(test)
     replication.f_start()
 
     local check
-    check = stat.check_replica({ exclude = { 'follow' }})
+    check = stat.check_replica({ exclude = { 'follow' } })
     test:is(#check, 1, 'number of non-follow replica is one')
     test:is(check[1], '4', 'uuid of non-follow replica is 4')
 
-    check = stat.check_replica({ include = { 'follow' }})
+    check = stat.check_replica({ include = { 'follow' } })
     test:is(#check, 2, 'number of follow replica is two')
     test:is(check[1], '2', 'uuid of follow replica is 2')
     test:is(check[2], '3', 'uuid of follow replica is 3')
