@@ -156,11 +156,22 @@ local function test_memory(test)
     info_memory.f_end()
 end
 
+local function test_only_numbers(test)
+    test:plan(5)
+
+    local s = stat.stat({ only_numbers = true })
+
+    test:ok(tonumber(s['cfg.current_time']) ~= nil, 'check cfg.current_time')
+    test:isnil(s['cfg.listen'], 'check that cfg.listen is nil')
+    test:isnil(s['cfg.hostname'], 'check that cfg.hostname is nil')
+    test:isnil(s['cfg.read_only'], 'check that cfg.read_only is nil')
+    test:isnil(s['info.uuid'], 'check that info.uuid is nil')
+end
 
 
 local function main()
     local test = tap.test()
-    test:plan(9)
+    test:plan(10)
     tnt.cfg { listen = 33301 }
 
     test:test('test_cfg', test_cfg)
@@ -171,6 +182,7 @@ local function main()
     test:test('test_stat_net', test_stat_net)
     test:test('test_space', test_space)
     test:test('test_fiber', test_fiber)
+    test:test('test_only_numbers', test_only_numbers)
     test:test('test_memory', test_memory)
 
     tnt.finish()

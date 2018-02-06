@@ -22,6 +22,10 @@ $ sudo [yum|apt-get] install tarantool tarantool-stat
 
 returns various metrics about Tarantool
 
+*Args*:
+ - `include_vinyl_count` - include space:count if engine is vinyl, default value is true
+ - `only_numbers` - include only numeric metrics, default value is false
+
 *Returns*:
 
  - `a table` on success
@@ -30,7 +34,7 @@ returns various metrics about Tarantool
 Example
 
 ``` lua
-  tarantool> require('json').encode(require('stat').stat())
+  tarantool> require('json').encode(require('stat').stat({ only_numbers = true }))
 ```
 
 ```

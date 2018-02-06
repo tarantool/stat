@@ -42,6 +42,7 @@ local function stat(args)
     if include_vinyl_count == nil then
         include_vinyl_count = true
     end
+    local only_numbers = args.only_numbers or false
 
     local stats = {}
 
@@ -49,10 +50,12 @@ local function stat(args)
     local st_cpu = clock.proc()
 
     do
-        stats['cfg.listen'] = box.cfg.listen
+        if not only_numbers then
+            stats['cfg.listen'] = box.cfg.listen
+            stats['cfg.hostname'] = util.gethostname()
+            stats['cfg.read_only'] = box.cfg.read_only
+        end
         stats['cfg.current_time'] = util.time()
-        stats['cfg.hostname'] = util.gethostname()
-        stats['cfg.read_only'] = box.cfg.read_only
     end
 
     do
@@ -77,8 +80,10 @@ local function stat(args)
 
     do
         local i = box.info()
+        if not only_numbers then
+            stats['info.uuid'] = i.uuid
+        end
         stats['info.pid'] = i.pid
-        stats['info.uuid'] = i.uuid
         stats['info.lsn'] = i.lsn
         stats['info.uptime'] = i.uptime
 
