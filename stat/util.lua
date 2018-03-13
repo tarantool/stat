@@ -32,6 +32,7 @@
 ---
 
 local clock = require 'clock'
+local ffi = require('ffi')
 
 local util = {}
 
@@ -39,16 +40,20 @@ function util.time()
     return 0ULL + clock.time()
 end
 
-function util.gethostname()
-  local ffi = require('ffi')
-  ffi.cdef[[
-      int gethostname(char *name, size_t len);
-  ]]
+if not pcall(function() return ffi.C.gethostname end) then
+    -- This should not be called too many times.
+    -- Thousands of ffi.cdef calls may cause "table overflow" error.
+    -- So we wrap it with a pcall check to allow unloading/loading
+    -- this module many times but declare gethostname only once.
+    ffi.cdef[[
+        int gethostname(char *name, size_t len);
+    ]]
+end
 
+function util.gethostname()
   local size = 1024
   local name_buf = ffi.new("char[?]", size)
   ffi.C.gethostname(name_buf, size);
-
   return ffi.string(name_buf)
 end
 
