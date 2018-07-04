@@ -8,7 +8,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 project(stat)
 
-set(TARANTOOL_FIND_REQUIRED ON)
-find_package(Tarantool)
+find_package(TarantoolPrefix)
 
 add_subdirectory(stat)
