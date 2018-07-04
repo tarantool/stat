@@ -45,3 +45,12 @@ build.luarocks/
 build/
 cmakebuild/
 packpack/
+
+# CMake files
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+
+# Vim Swap files
+*.sw[a-z]

@@ -15,8 +15,9 @@ dependencies = {
 build = {
     type = 'cmake';
     variables = {
-        TARANTOOL_INSTALL_LUADIR="$(LUADIR)";
-    };
+        TARANTOOL_INSTALL_PREFIX="$(PREFIX)",
+        TARANTOOL_INSTALL_LUADIR="$(LUADIR)",
+    }
 }
 
 -- vim: syntax=lua
