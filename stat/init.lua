@@ -68,7 +68,7 @@ local function stat(args)
             end
         else
             for k, v in ipairs(i.replication) do
-                if v.downstream ~= nil then
+                if v.downstream ~= nil and v.downstream.vclock ~= nil then
                     local lsn = v.downstream.vclock[i.id]
                     if lsn ~= nil and i.lsn ~= nil then
                         stats['replication.master.' .. k .. '.lsn'] = i.lsn - lsn
