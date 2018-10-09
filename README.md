@@ -155,6 +155,39 @@ Example
 }
 ```
 
+Example (detailed_replication=true)
+
+``` lua
+  tarantool> require('stat').stat({ detailed_replication = true })['stat.detailed_replication'])
+```
+
+```
+{
+  "my_host":"192.168.0.11:3301",
+  "replicaset":[
+    {
+      "lsn":8,
+      "lag":0.0002138614654541,
+      "status":"follow",
+      "uuid":"04bff6bc-089e-4dd1-9163-881637efa635",
+      "host":"192.168.0.12:3301"
+    },
+    {
+      "lsn":0,
+      "uuid":"71f06283-0fec-47d9-a128-8fa7cc0db3b5",
+      "host":"192.168.0.11:3301"
+    },
+    {
+      "lsn":0,
+      "lag":7.62939453125e-05,
+      "status":"follow",
+      "uuid":"dd6fec3d-6ed8-42a8-ac6f-03543d9f8e80",
+      "host":"192.168.0.13:3301"
+    }
+  ]
+}
+```
+
 ### `$ tnt_check.sh`
 grep all tarantool@* instances and check parameters:
  * box.slab.info().arena_used_ratio
