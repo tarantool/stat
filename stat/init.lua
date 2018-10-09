@@ -43,6 +43,7 @@ local function stat(args)
         include_vinyl_count = true
     end
     local only_numbers = args.only_numbers or false
+    local detailed_replication = args.detailed_replication or false
 
     local stats = {}
 
@@ -217,6 +218,27 @@ local function stat(args)
     ed_cpu = clock.proc()
     stats['statperf.fibers'] = ed_cpu - st_cpu
     stats['statperf.fibers_t'] = ed_time - st_time
+
+    if detailed_replication then
+        stats['stat.detailed_replication'] = {
+            my_host = util.get_my_replica_host(),
+            replicaset = {},
+        }
+        for _, v in ipairs(box.info.replication) do
+            local item = {
+                uuid = v.uuid,
+                lsn = v.lsn,
+                host = stats['stat.detailed_replication']['my_host'],
+            }
+            if v.upstream ~= nil then
+                item.host = util.get_replica_host(v.upstream.peer)
+                item.status = v.upstream.status
+                item.lag = v.upstream.lag
+            end
+
+            table.insert(stats['stat.detailed_replication']['replicaset'], item)
+        end
+    end
 
     return stats
 end

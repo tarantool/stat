@@ -25,6 +25,7 @@ returns various metrics about Tarantool
 *Args*:
  - `include_vinyl_count` - include space:count if engine is vinyl, default value is true
  - `only_numbers` - include only numeric metrics, default value is false
+ - `detailed_replication` - include detailed information about replicaset, default value is false
 
 *Returns*:
 

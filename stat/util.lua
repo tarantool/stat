@@ -57,4 +57,26 @@ function util.gethostname()
   return ffi.string(name_buf)
 end
 
+function util.get_replica_host(peer)
+    local _, host = string.match(peer, '(.+)@(.+)')
+    return host
+end
+
+function util.get_my_replica_host()
+    local all_hosts = {}
+    for _, v in ipairs(box.cfg.replication) do
+        local host = util.get_replica_host(v)
+        all_hosts[host] = true
+    end
+
+    for _, v in ipairs(box.info.replication) do
+        if v.upstream ~= nil then
+            local host = util.get_replica_host(v.upstream.peer)
+            all_hosts[host] = nil
+        end
+    end
+
+    return next(all_hosts)
+end
+
 return util
