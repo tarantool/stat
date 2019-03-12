@@ -136,11 +136,11 @@ local function stat(args)
     end
 
     do
-        local i = box.stat.net()
-        for k, v in pairs(i) do
-            stats['stat.net.' .. k:lower() .. '.total'] = v.total
-            stats['stat.net.' .. k:lower() .. '.rps'] = v.rps
-        end
+        local box_stat_net = box.stat.net()
+        stats['stat.net.sent.total'] = box_stat_net.SENT.total
+        stats['stat.net.sent.rps'] = box_stat_net.SENT.rps
+        stats['stat.net.received.total'] = box_stat_net.RECEIVED.total
+        stats['stat.net.received.rps'] = box_stat_net.RECEIVED.rps
     end
 
     local ed_time = clock.realtime()
