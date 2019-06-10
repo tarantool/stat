@@ -23,7 +23,7 @@ $ sudo [yum|apt-get] install tarantool tarantool-stat
 returns various metrics about Tarantool
 
 *Args*:
- - `include_vinyl_count` - include space:count if engine is vinyl, default value is true
+ - `include_vinyl_count` - include space:count if engine is vinyl, default value is false
  - `only_numbers` - include only numeric metrics, default value is false
 
 *Returns*:

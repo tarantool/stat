@@ -40,7 +40,7 @@ local function stat(args)
 
     local include_vinyl_count = args.include_vinyl_count
     if include_vinyl_count == nil then
-        include_vinyl_count = true
+        include_vinyl_count = false
     end
     local only_numbers = args.only_numbers or false
 
