@@ -150,7 +150,14 @@ Example
   // Same, but sent via network interface
   "stat.net.sent.total":0,
   "stat.net.sent.rps":0,
-
+  // Network requests
+  "stat.net.requests.current": 0,
+  "stat.net.requests.rps": 0,
+  "stat.net.requests.total": 0,
+  // Network connections
+  "stat.net.connections.current": 0,
+  "stat.net.connections.rps": 0,
+  "stat.net.connections.total": 0,
 }
 ```
 
