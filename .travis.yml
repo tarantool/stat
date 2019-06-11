@@ -12,15 +12,20 @@ env:
       - PRODUCT=tarantool-stat
     matrix:
       - TARGET=test VERSION=1_7
-      - TARGET=test VERSION=2_0
+      - TARGET=test VERSION=2_2
       - OS=el DIST=6
       - OS=el DIST=7
-      - OS=fedora DIST=24
-      - OS=fedora DIST=25
+      - OS=fedora DIST=28
+      - OS=fedora DIST=29
+      - OS=fedora DIST=30
       - OS=ubuntu DIST=trusty
       - OS=ubuntu DIST=xenial
+      - OS=ubuntu DIST=bionic
+      - OS=ubuntu DIST=cosmic
+      - OS=ubuntu DIST=disco
       - OS=debian DIST=jessie
       - OS=debian DIST=stretch
+      - OS=debian DIST=buster
 
 script:
   - git describe --long
@@ -71,6 +76,16 @@ deploy:
   - provider: packagecloud
     username: tarantool
     repository: "2x"
+    token: ${PACKAGECLOUD_TOKEN}
+    dist: ${OS}/${DIST}
+    package_glob: build/*.{rpm,deb,dsc}
+    skip_cleanup: true
+    on:
+      branch: master
+      condition: -n "${OS}" && -n "${DIST}" && -n "${PACKAGECLOUD_TOKEN}"
+  - provider: packagecloud
+    username: tarantool
+    repository: "2_2"
     token: ${PACKAGECLOUD_TOKEN}
     dist: ${OS}/${DIST}
     package_glob: build/*.{rpm,deb,dsc}
