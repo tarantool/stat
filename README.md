@@ -1,3 +1,7 @@
+# DEPRECATED
+
+### Please note, this project is deprecated and no longer being maintained, please use [metrics](https://github.com/tarantool/metrics).
+
 # stat - the status module for Tarantool 1.7+ [Tarantool][]
 
 Forked from https://github.com/dedok/tarantool-stat
